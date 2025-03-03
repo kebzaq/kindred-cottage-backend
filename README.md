@@ -3,7 +3,7 @@ Kindred Cottage is a ull-stack web application designed for managinh vacation re
 
 ## Features
 - User Authentication: Login and registration
-- Booking Management: Users can book stays, specify cgeck-in/check-out dates, and manage their reservations.
+- WIP: Booking Management: Users can book stays, specify cgeck-in/check-out dates, and manage their reservations.
 - To-Do List: create, update and delete tasks related to vacation with different statuses.
 - Role-Based Access: Ensure only authenticated users can access their bookings and tasks. 
 
