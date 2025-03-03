@@ -21,7 +21,7 @@ export const handleBooking = () => {
   bookingTableHandler = document.getElementById("booking-table-header");
 
   bookingDiv.addEventListener("click", async (e) => {
-    if (inputEnabled && e.target.nodeName === "BUTTON") {
+    if (e.target.nodeName === "BUTTON") {
       if (e.target === addBooking) {
         showAddEdit(null);
       } else if (e.target === logoff) {
@@ -112,5 +112,5 @@ export const showBooking = async () => {
     message.textContent = "A communication error occurred.";
   }
   enableInput(true);
-//   setDiv(bookingDiv);
+  // setDiv(bookingDiv);
 };

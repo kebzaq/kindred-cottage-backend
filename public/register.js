@@ -8,6 +8,7 @@ import {
 } from "./index.js";
 import { showLoginRegister } from "./loginRegister.js";
 import { showJobs } from "./jobs.js";
+import { showBooking } from "./booking.js";
 
 let registerDiv = null;
 let name = null;

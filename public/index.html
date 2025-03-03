@@ -5,14 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todo List</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="./style.css" />
+    <!-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> -->
   </head>
 
-  <body class="flex justify-center items-center min-h-screen bg-orange-600">
+  <body >
+    <div>
+      <img src="./images/kindred-cottage.png" alt="logo" />
+    </div>
     <h1>Kindred Cottage</h1>
     <hr />
     <p id="message"></p>
     <hr />
+    <!-- LOGIN / REGISTER starts -->
     <div id="logon-register" style="display: none">
       <button type="button" id="logon">logon</button>
       <button type="button" id="register">register</button>
@@ -53,7 +58,9 @@
         <button type="button" id="register-cancel">cancel</button>
       </form>
     </div>
-    <div id="booking" style="display: block">
+    <!-- LOGIN / REGISTER ends -->
+     <!-- BOOKINGS starts -->
+    <div id="booking" style="display: none">
       <h2>My Reservations</h2>
       <p id="booking-message"></p>
       <table id="booking-table">
@@ -100,22 +107,9 @@
     <button type="button" id="edit-booking-cancel">Cancel</button>
   </form>
 </div>
+    <!-- BOOKINGS ends -->
+     <!-- JOBS started -->
     <div id="jobs" style="display: none">
-      <!-- <div id="booking">
-        <h2>Bookings</h2>
-        <p id="booking-message"></p>
-        <table id="booking-table">
-          <tr id="booking-table-header">
-            <th>Check-in</th>
-            <th>Check-out</th>
-            <th>No of nights to stay</th>
-            <th>Number of guests</th>
-            <th>Status</th>
-            <th colspan="2"></th>
-          </tr>
-        </table>
-        <button type="button" id="add-booking">add booking</button>
-      </div> -->
       <h3>Todo List</h3>
       <p id="jobs-message"></p>
       <table id="jobs-table">

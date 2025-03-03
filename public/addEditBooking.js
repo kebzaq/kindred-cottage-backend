@@ -4,28 +4,30 @@ import { showBooking } from "./booking.js";
 let addEditDiv = null;
 let startDate = null;
 let endDate = null;
-let status = null;
-let addingJob = null;
+let bookingStatus = null;
+let addingBooking = null;
 
-export const handleAddEdit = () => {
-  addEditDiv = document.getElementById("edit-job");
-  title = document.getElementById("title");
-  description = document.getElementById("description");
-  status = document.getElementById("status");
-  addingJob = document.getElementById("adding-job");
+export const handleAddEditBooking = () => {
+  addEditDiv = document.getElementById("edit-booking");
+  startDate = document.getElementById("startDate");
+  endDate = document.getElementById("endDate");
+  numberOfGuests = document.getElementById("numberOfGuests");
+  numberOfNights = document.getElementById("numberOfNights");
+  bookingStatus = document.getElementById("bookingStatus");
+  addingBooking = document.getElementById("adding-booking");
   const editCancel = document.getElementById("edit-cancel");
 
   addEditDiv.addEventListener("click", async (e) => {
     if (inputEnabled && e.target.nodeName === "BUTTON") {
-      if (e.target === addingJob) {
+      if (e.target === addingBooking) {
         enableInput(false);
 
         let method = "POST";
-        let url = "/api/v1/todos";
+        let url = "/api/v1/bookings";
         // edit functionality
-        if (addingJob.textContent === "update") {
+        if (addingBooking.textContent === "update") {
           method = "PATCH";
-          url = `/api/v1/todos/${addEditDiv.dataset.id}`;
+          url = `/api/v1/bookings/${addEditDiv.dataset.id}`;
         }
         try {
           const response = await fetch(url, {
@@ -35,24 +37,28 @@ export const handleAddEdit = () => {
               Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify({
-              title: title.value,
-              description: description.value,
-              status: status.value,
+              startDate: startDate.value,
+              endDate: endDate.value,
+              numberOfGuests: numberOfGuests.value,
+              numberOfNights: numberOfNights.value,
+              bookingStatus: bookingStatus.value,
             }),
           });
 
           const data = await response.json();
-          if (response.status === 200 || response.status === 201) {
-            if (response.status === 200) {
+          if (response.bookingStatus === 200 || response.bookingStatus === 201) {
+            if (response.bookingStatus === 200) {
               // a 200 is expected for a successful update
-              message.textContent = "The job entry was updated.";
+              message.textContent = "The booking entry was updated.";
             } else {
               // a 201 is expected for a successful create
-              message.textContent = "The job entry was created.";
+              message.textContent = "The booking entry was created.";
             }
-            title.value = "";
-            description.value = "";
-            status.value = "pending";
+              startDate.value="",
+              endDate.value ="",
+              numberOfGuests.value="",
+              numberOfNights.value="",
+              bookingStatus.value="pending",
 
             showBooking();
           } else {
@@ -64,10 +70,10 @@ export const handleAddEdit = () => {
         }
 
         // delete
-        if (addingJob.textContent === "delete") {
+        if (addingBooking.textContent === "delete") {
           method = "DELETE";
-          console.log(">>>>>>", addEditDiv.dataset.id);
-          url = `/api/v1/todos/${addEditDiv.dataset.id}`;
+          // console.log(">>>>>>", addEditDiv.dataset.id);
+          url = `/api/v1/bookings/${addEditDiv.dataset.id}`;
           try {
             const response = await fetch(url, {
               method: method,
@@ -78,7 +84,7 @@ export const handleAddEdit = () => {
             });
 
             const data = await response.json();
-            if (response.status === 200 || response.status === 204) {
+            if (response.bookingStatus === 200 || response.bookingStatus === 204) {
               message.textContent = data.msg;
               await showBooking();
             } else {
@@ -105,8 +111,8 @@ export const showAddEdit = async (bookingId) => {
     endDate.value = "";
     numberOfGuests.value = "";
     numberOfNights.value = "";
-    status.value = "pending";
-    addingJob.textContent = "add";
+    bookingStatus.value = "pending";
+    addingBooking.textContent = "add";
     message.textContent = "";
 
     setDiv(addEditDiv);
@@ -123,20 +129,20 @@ export const showAddEdit = async (bookingId) => {
       });
 
       const data = await response.json();
-      if (response.status === 200) {
-        startDate.value = data.todo.startDate;
-        endDate.value = data.todo.endDate;
-        numberOfGuests.value = data.todo.numberOfGuests;
-        numberOfNights.value = data.todo.numberOfNights;
-        bookingStatus.value = data.todo.status;
-        addingJob.textContent = "update";
+      if (response.bookingStatus === 200) {
+        startDate.value = data.booking.startDate;
+        endDate.value = data.booking.endDate;
+        numberOfGuests.value = data.booking.numberOfGuests;
+        numberOfNights.value = data.booking.numberOfNights;
+        bookingStatus.value = data.booking.status;
+        addingBooking.textContent = "update";
         message.textContent = "";
         addEditDiv.dataset.id = bookingId;
 
         setDiv(addEditDiv);
       } else {
         // might happen if the list has been updated since last display
-        message.textContent = "The jobs entry was not found";
+        message.textContent = "The bookings entry was not found";
         showBooking();
       }
     } catch (err) {
@@ -149,12 +155,14 @@ export const showAddEdit = async (bookingId) => {
   }
 };
 
-export const showDelete = async (todoId) => {
-  if (!todoId) {
-    title.value = "";
-    description.value = "";
-    status.value = "pending";
-    addingJob.textContent = "add";
+export const showDelete = async (bookingId) => {
+  if (!bookingId) {
+    startDate.value = "";
+    endDate.value = "";
+    numberOfGuests.value = "";
+    numberOfNights.value = "";
+    bookingStatus.value = "pending";
+    addingBooking.textContent = "add";
     message.textContent = "";
 
     setDiv(addEditDiv);
@@ -162,7 +170,7 @@ export const showDelete = async (todoId) => {
     enableInput(false);
 
     try {
-      const response = await fetch(`/api/v1/todos/${todoId}`, {
+      const response = await fetch(`/api/v1/bookings/${bookingId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -171,18 +179,20 @@ export const showDelete = async (todoId) => {
       });
 
       const data = await response.json();
-      if (response.status === 200) {
-        title.value = data.todo.title;
-        description.value = data.todo.description;
-        status.value = data.todo.status;
-        addingJob.textContent = "delete";
-        message.textContent = "Are you sure to DELETE this todo? ";
-        addEditDiv.dataset.id = todoId;
+      if (response.bookingStatus === 200) {
+        startDate.value = data.booking.startDate;
+        endDate.value = data.booking.endDate;
+        numberOfGuests.value = data.booking.numberOfGuests;
+        numberOfNights.value = data.booking.numberOfNights;
+        bookingStatus.value = data.booking.status;
+        addingBooking.textContent = "delete";
+        message.textContent = "Are you sure to DELETE this booking? ";
+        addEditDiv.dataset.id = bookingId;
 
         setDiv(addEditDiv);
       } else {
         // might happen if the list has been updated since last display
-        message.textContent = "The jobs entry was not found";
+        message.textContent = "The bookings entry was not found";
         showBooking();
       }
     } catch (err) {
