@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest House Booking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
+    <style>
+        .fc-day-grid-event {
+            border: 2px solid red;
+            position: relative;
+        }
+        .fc-day-grid-event .fc-title {
+            color: white;
+            background: red;
+            font-size: 12px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Guest House Booking</h1>
+    <div id="calendar"></div>
+
+    <div id="bookingForm" style="display:none;">
+        <h2>Booking Form</h2>
+        <label for="startDate">Check-in Date:</label>
+        <input type="date" id="startDate">
+        <label for="endDate">Checkout Date:</label>
+        <input type="date" id="endDate">
+        <button onclick="submitBooking()">Submit Booking</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        let availableDates = [];
+        let bookedDates = {};  // Format: { '2025-03-01': 'John', '2025-03-02': 'Doe', ... }
+
+        // Load Google API client
+        function loadGoogleAPI() {
+            gapi.load('client:auth2', initGoogleAPI);
+        }
+
+        function initGoogleAPI() {
+            gapi.client.init({
+                apiKey: 'YOUR_GOOGLE_API_KEY',
+                clientId: 'YOUR_CLIENT_ID',
+                scope: 'https://www.googleapis.com/auth/calendar.readonly',
+            }).then(function () {
+                getBookedDates();
+            });
+        }
+
+        // Fetch booked dates from Google Calendar
+        function getBookedDates() {
+            gapi.client.calendar.events.list({
+                calendarId: 'primary',
+                timeMin: (new Date()).toISOString(),
+                showDeleted: false,
+                singleEvents: true,
+                orderBy: 'startTime',
+            }).then(function(response) {
+                const events = response.result.items;
+                events.forEach(event => {
+                    const startDate = new Date(event.start.dateTime || event.start.date).toISOString().split('T')[0];
+                    bookedDates[startDate] = event.summary;
+                });
+                renderCalendar();
+            });
+        }
+
+        // Initialize the FullCalendar
+        function renderCalendar() {
+            $('#calendar').fullCalendar({
+                events: Object.keys(bookedDates).map(date => ({
+                    title: bookedDates[date],
+                    start: date,
+                    rendering: 'background',
+                    color: 'red',
+                    textColor: 'white'
+                })),
+                selectable: true,
+                select: function(start, end) {
+                    const startDate = start.format('YYYY-MM-DD');
+                    const endDate = end.format('YYYY-MM-DD');
+
+                    if (!bookedDates[startDate] && !bookedDates[checkoutDate]) {
+                        showBookingForm(startDate, checkoutDate);
+                    }
+                    $('#calendar').fullCalendar('unselect');
+                },
+                dayRender: function(date, cell) {
+                    const dateStr = date.format('YYYY-MM-DD');
+                    if (bookedDates[dateStr]) {
+                        cell.css('background-color', 'red');
+                        cell.css('color', 'white');
+                        cell.append('<span>' + bookedDates[dateStr] + '</span>');
+                        cell.css('pointer-events', 'none');
+                    }
+                }
+            });
+        }
+
+        // Show the booking form with selected check-in and check-out dates
+        function showBookingForm(startDate, endDate) {
+            $('#startDate').val(startDate);
+            $('#endDate').val(endDate);
+            $('#bookingForm').show();
+        }
+
+        // Submit the booking
+        function submitBooking() {
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+
+            // Add booking to Google Calendar
+            const event = {
+                summary: 'Booked by User',
+                start: { dateTime: new Date(startDate + 'T12:00:00') },
+                end: { dateTime: new Date(endDate + 'T12:00:00') },
+            };
+            const request = gapi.client.calendar.events.insert({
+                calendarId: 'primary',
+                resource: event,
+            });
+            request.execute(function(response) {
+                bookedDates[startDate] = 'Booked by User';
+                bookedDates[endDate] = 'Booked by User';
+                renderCalendar();
+                alert('Booking successful!');
+            });
+        }
+
+        $(document).ready(function() {
+            loadGoogleAPI();
+        });
+    </script>
+</body>
+</html>
