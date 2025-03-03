@@ -1,11 +1,11 @@
 # Kindred Cottage
-Kindred Cottage is a ull-stack web application designed for managinh vacation rentals efficiently. The application allows to book stays, manage their reservations, and track using a todo list feature.
+This a full-stack web application designed for managing guest reservations for Kindred Cottage. The application allows to book stays, manage their reservations, and track using a todo list feature.
 
 ## Features
-- User Authentication: Login and registration
-- WIP: Booking Management: Users can book stays, specify cgeck-in/check-out dates, and manage their reservations.
+- User Authentication: login and registration
+- Booking Management: users can book stays, specify check-in/check-out dates, and manage their reservations.
 - To-Do List: create, update and delete tasks related to vacation with different statuses.
-- Role-Based Access: Ensure only authenticated users can access their bookings and tasks. 
+- Role-Based Access: ensure only authenticated users can access their bookings and tasks. 
 
 ## Tech Stack
 - Frontend: HTML, CSS, Javascript currently (but will be separate React app in the future).
@@ -19,13 +19,14 @@ Kindred Cottage is a ull-stack web application designed for managinh vacation re
 - POST /api/v1/auth/login - Log in and receive a token
 
 ### Booking Management
-- GET /api/v1/bookings - Retrieve user bookings
+- GET /api/v1/bookings - Retrieve users all bookings
+- GET /api/v1/bookings/:id - Retrieve a booking with id
 - POST /api/v1/bookings - Create a new booking
 - PATCH /api/v1/bookings/:id - Update/edit a booking
 - DELETE /api/v1/bookings/:id - Cancel a booking
 
 ### To-Do List Management
-- GET /api/v1/todos - Retrieve all tasks
+- GET /api/v1/todos - Retrieve users all tasks
 - GET /api/v1/todos:id - Retrieve a single task
 - POST /api/v1/todos - Add a single task
 - PATCH /api/v1/todos/:id - Update a task
