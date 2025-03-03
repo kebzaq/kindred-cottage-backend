@@ -21,14 +21,14 @@ Kindred Cottage is a ull-stack web application designed for managinh vacation re
 ### Booking Management
 - GET /api/v1/bookings - Retrieve user bookings
 - POST /api/v1/bookings - Create a new booking
-- PUT /api/v1/bookings/:id - Update/edit a booking
+- PATCH /api/v1/bookings/:id - Update/edit a booking
 - DELETE /api/v1/bookings/:id - Cancel a booking
 
 ### To-Do List Management
 - GET /api/v1/todos - Retrieve all tasks
 - GET /api/v1/todos:id - Retrieve a single task
 - POST /api/v1/todos - Add a single task
-- PUT /api/v1/todos/:id - Update a task
+- PATCH /api/v1/todos/:id - Update a task
 - DELETE /api/v1/todos/:id - Delete a task
 
 #### Setup: local
