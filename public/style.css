@@ -1,11 +1,11 @@
 body {
     display: flex;
-    justify-content: center;  /* Centers content horizontally */
-    align-items: center;  /* Centers content vertically */
-    min-height: 100vh;  /* Ensures full height of the viewport */
-    background-color: rgb(208, 165, 113);  /* Background color */
-    text-align: center;  /* Centers inline text */
-    flex-direction: column;  /* Stacks elements vertically */
+    justify-content: center; 
+    /* min-height: 100vh;   */
+    background-color: rgb(208, 165, 113); 
+    text-align: center; 
+    flex-direction: column;  
+    margin-top: 20px;
   }
 
 #message {
@@ -13,9 +13,9 @@ body {
   }
 
   img {
-    width: 100%;  /* Makes the image 50% of its container */
-    max-width: 400px;  /* Ensures it doesn't get too large */
-    height: auto;  /* Keeps the aspect ratio */
+    width: 100%;
+    max-width: 400px; 
+    height: auto;  
     display: block;
-    margin: 0 auto; /* Centers the image */
+    margin: 0 auto; 
   }
