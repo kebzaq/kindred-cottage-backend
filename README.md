@@ -1,5 +1,5 @@
 # Kindred Cottage
-This a full-stack web application designed for managing guest reservations for Kindred Cottage. The application allows to book stays, manage their reservations, and track using a todo list feature.
+This is a full-stack web application designed for managing guest reservations for Kindred Cottage - getaway in Adirondacks, New York. The application allows to book stays, manage their reservations, and track using a todo list feature.
 
 ## Features
 - User Authentication: login and registration
